@@ -29,10 +29,10 @@ namespace BrainFuckTestProject
         public void NextCellTest(int newCurrent)
         {
             // arrange
-            var repository = new Repository();
-            var testTextWriter = new TestTextWriter();
-            var testTextReader = new TestTextReader();
-            var inputOutput = new InputOutput(testTextReader, testTextWriter);
+            var repository = new Repository(); // мок репозитория
+            var testTextWriter = new TestTextWriter();// как избавиться от этого добра
+            var testTextReader = new TestTextReader();// как избавиться от этого добра
+            var inputOutput = new InputOutput(testTextReader, testTextWriter); // как избавиться от этого добра
             var brainFuckFunction = new BrainFuckFunction(repository, inputOutput);
 
             var expectedCurrent1 = newCurrent + 1;
@@ -134,7 +134,7 @@ namespace BrainFuckTestProject
         public void IfZeroNextTest(string newCurrentProgram, int expectedCurrent)
         {
             // arrange
-            var repository = new Repository();
+            var repository = new Repository(); //мок репозитория 
             var testTextWriter = new TestTextWriter();
             var testTextReader = new TestTextReader();
             var inputOutput = new InputOutput(testTextReader, testTextWriter);
@@ -177,15 +177,15 @@ namespace BrainFuckTestProject
         }
 
         [Theory]
-        [InlineData('}', "}")]
-        [InlineData('<', "<")]
-        [InlineData('/', "/")] 
-        public void DisplayCellValueTest(char expectedCurrent, string value)
+        [InlineData("}")]
+        [InlineData(",")]
+        [InlineData("]")] 
+        public void DisplayCellValueTest(string expectedCurrent)
         {
             // arrange
             var mockTextWriter = new Mock<TextWriter>();
             var called = false;
-            mockTextWriter.Setup(x => x.Write(value)).Callback(() => called = true); //Callback - когда вызывается функция, которую мы
+            mockTextWriter.Setup(x => x.Write(expectedCurrent)).Callback(() => called = true); //Callback - когда вызывается функция, которую мы
                                                                                    //засетапили, если она была вызвана, то вызывается функция
                                                                                    //которую мы закаллбечили
 
@@ -195,7 +195,7 @@ namespace BrainFuckTestProject
             var inputOutput = new InputOutput(testTextReader, mockTextWriter.Object);
             var brainFuckFunction = new BrainFuckFunction(repository, inputOutput);
 
-            repository.Memory[0] = expectedCurrent;
+            repository.Memory[0] = expectedCurrent[0];
 
             // act
             brainFuckFunction.DisplayCellValue();
@@ -207,16 +207,17 @@ namespace BrainFuckTestProject
         }
 
 
-        [Theory]
-        [InlineData('}', "}")]
-        [InlineData('+', "+")]
-        [InlineData('_', "_")]
-        public void InputValueInCellTest(char expectedCurrent, string value)
+        [Theory] //сделать как выше
+        // где используются моки прописать верифаи
+        [InlineData('}')]
+        [InlineData('+')]
+        [InlineData('_')]
+        public void InputValueInCellTest(char expectedCurrent)
         {
             // arrange
 
             var mockTextReader = new Mock<TextReader>(); // Здесь лежить инстант настройки класса TextReader
-            mockTextReader.Setup(x => x.ReadLine()).Returns(value); //х - некий вызов текст ридера
+            mockTextReader.Setup(x => x.ReadLine()).Returns(expectedCurrent.ToString()); //х - некий вызов текст ридера
                                                                   // Returns - возвращает 
                                                                   //
 
