@@ -1,11 +1,11 @@
-﻿
+﻿namespace BrainFuck;
 
 public class BrainFuckFunction : IBrainFuckFunction
 {
     private IRepository _dataFromRepository;
-    private InputOutput _inputOutput;
+    private IInputOutput _inputOutput;
 
-    public BrainFuckFunction(IRepository dataFromRepository, InputOutput inputOutput)
+    public BrainFuckFunction(IRepository dataFromRepository, IInputOutput inputOutput)
     {
         _dataFromRepository = dataFromRepository;
         _inputOutput = inputOutput;
